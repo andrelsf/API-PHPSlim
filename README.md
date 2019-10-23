@@ -34,4 +34,5 @@ $ php -r "unlink('composer-setup.php');"
 
 ## Referencias
 
+[PHP Slim Docs](http://www.slimframework.com/docs/v3/tutorial/first-app.html)
 [Doctrine DateTime](https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/cookbook/working-with-datetime.html#working-with-datetime-instances)
