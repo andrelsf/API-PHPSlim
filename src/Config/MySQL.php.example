@@ -1,0 +1,15 @@
+<?php
+
+/**
+ * Template
+ */
+return [
+    'mysql' => [
+        'driver' => 'pdo_mysql',
+        'host' => '<IP_ADDRESS>',
+        'port' => 3306,
+        'dbname' => '<DB_NAME>',
+        'user' => 'DB_USER',
+        'password' => 'DB_USER_PASSWORD',
+    ],
+];
