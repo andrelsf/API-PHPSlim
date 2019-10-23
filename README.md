@@ -30,3 +30,8 @@ $ php -r "unlink('composer-setup.php');"
 * bootstrap.php
 * public/index.php
 * vendor/autoload.php
+
+
+## Referencias
+
+[Doctrine DateTime](https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/cookbook/working-with-datetime.html#working-with-datetime-instances)
