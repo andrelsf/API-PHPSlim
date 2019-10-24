@@ -6,7 +6,7 @@
  * de dependências da API.
  */
  
-require './vendor/autoload.php';
+require __DIR__.'/vendor/autoload.php';
 
 use Slim\App;
 use Slim\Container;
