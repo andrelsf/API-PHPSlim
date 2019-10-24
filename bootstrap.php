@@ -13,7 +13,7 @@ use Slim\Container;
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
-use Doctrine\Common\Annotations\AnnotarionReader;
+use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Cache\FilesystemCache;
 
 
