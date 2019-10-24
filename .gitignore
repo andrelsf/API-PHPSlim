@@ -1,2 +1,5 @@
-vendor/
-src/Config/MySQL.php
+api/vendor/
+api/src/Config/MySQL.php
+mysql/.env
+mysql/.data
+composer.lock

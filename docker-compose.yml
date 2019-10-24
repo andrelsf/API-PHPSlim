@@ -1,0 +1,39 @@
+version: "3.5"
+
+networks:
+  appnet:
+    name: php-app
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+       - subnet: 172.111.0.0/24
+
+services:
+  api:
+    build: ./apache
+    volumes:
+      - ./api:/usr/src/app
+    ports:
+      - "80:80"
+    links:
+      - db
+    restart:
+      on-failure
+    networks:
+      appnet:
+        ipv4_address: "172.111.0.2"
+
+  db:
+    image: mysql:5.7
+    env_file:
+      - ./mysql/.env
+    volumes:
+      - ./mysql/.data:/var/lib/mysql
+    expose:
+      - 3306
+    restart:
+      on-failure
+    networks:
+      appnet:
+        ipv4_address: "172.111.0.3"
