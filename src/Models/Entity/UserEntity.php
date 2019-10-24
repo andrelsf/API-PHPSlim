@@ -24,7 +24,7 @@ class User {
      * @var string
      * @column(type="string", nullable=false)
      */
-    private $name;
+    private $fullname;
 
     /**
      * @var string
@@ -39,20 +39,111 @@ class User {
     private $password;
 
     /**
-     * @var bool  #TODO
-     * @column(type="")
+     * @var bool
+     * @column(type="boolean", nullable=false, name="isactive")
      */
+    private $isActive;
 
     /**
      * @var DateTime
-     * @column(type="datetime", name="create_at")
+     * @column(type="datetime", nullable=true, name="createat")
      */
-    private $create_at;
+    private $createAt;
 
     /**
      * @var DateTime
-     * @column(type="datetime", name="update_at")
+     * @column(type="datetime", nullable=true, name="updateat")
      */
-    private $update_at;
+    private $updateAt;
 
+    /**
+     * Methods GETTERs and SETTERs
+     */
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getFullName()
+    {
+        return $this->fullname;
+    }
+
+    public function setFullName($fullname)
+    {
+        if ($this->verifyField($fullname)) {
+            $this->fullname = $fullname;
+        }
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    public function setEmail($email)
+    {
+        if ($this->verifyField($email)) {
+            $this->email = $email;
+        }
+    }
+
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    public function setPassword($password)
+    {
+        if ($this->verifyField($password)){
+            $this->password = hash("sha256", $password);    
+        }
+    }
+
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive($isActive)
+    {
+        if (!is_bool($isActive)) {
+            throw new \InvalidArgumentException(
+                "isActive is required", 400
+            );
+        }
+        $this->isActive = $isActive;
+        return $this;
+    }
+
+    public function getCreateAt()
+    {
+        return $this->createAt;
+    }
+
+    public function setCreateAt()
+    {
+        $this->createAt = new \DateTime("now");
+    }
+
+    public function getUpdateAt()
+    {
+        return $this->updateAt;
+    }
+
+    public function setUpdateAt()
+    {
+        $this->updateAt = new \Datetime("now");
+    }
+
+    private function verifyField($field)
+    {
+        if (!$field && !is_string($field)){
+            throw new \InvalidArgumentException(
+                "{$field} is required", 400
+            );
+        }
+        return true;
+    }
 }
