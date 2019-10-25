@@ -1,4 +1,5 @@
 api/vendor/
+api/data/
 api/src/Config/MySQL.php
 mysql/.env
 mysql/.data
