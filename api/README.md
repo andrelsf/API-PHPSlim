@@ -25,15 +25,20 @@ $ php -r "unlink('composer-setup.php');"
 }
 ```
 
-### Struture
+### Methods HTTP
 
-* bootstrap.php
-* public/index.php
-* vendor/autoload.php
+| Endpoint | Method | Code Status | Response          | Deploy |  
+|:---------|:------:|:-----------:|-------------------|:------:|
+| /users   | GET    | 200         | List of users     | `OK`   |
+| /user/:id| GET    | 200         | Get single user   | `X`    |
+| /user/:id| PUT    | 201/200     | Update single user| `X`    |
+| /user/:id| DELETE | 200         | Delete single user| `X`    |
+| /user    | POST   | 201         | Add new user      | `X`    |
 
 
 ## Referencias
 
+* [PHP Slim EntityManager](http://www.slimframework.com/docs/v3/cookbook/database-doctrine.html)
 * [PHP Slim Docs](http://www.slimframework.com/docs/v3/tutorial/first-app.html)
 * [Doctrine DateTime](https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/cookbook/working-with-datetime.html#working-with-datetime-instances)
 * [Doctrine Basic Mapping](https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/basic-mapping.html)
