@@ -7,7 +7,7 @@ $database = include(APP_ROOT . "/src/Config/MySQL.php");
 return [
     'settings' => [
         'displayErrorDetails' => true,
-        'determineRouteBeforeAppMiddleware' => true, 
+        'determineRouteBeforeAppMiddleware' => true,
         'doctrine' => [
             // If true, metadata caching is forcelly disabled
             'dev_mode' => true,
@@ -23,6 +23,7 @@ return [
                 'dbname'    => $database['mysql']['dbname'],
                 'user'      => $database['mysql']['user'],
                 'password'  => $database['mysql']['password'],
+                'charset'   => $database['mysql']['charset']
             ]
         ]
     ]

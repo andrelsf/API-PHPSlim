@@ -8,6 +8,7 @@
  
 require __DIR__.'/vendor/autoload.php';
 
+use App\Models\UserRepository;
 use Slim\App;
 use Slim\Container;
 use Doctrine\ORM\Tools\Setup;
@@ -64,6 +65,13 @@ $container[EntityManager::class] = function (Container $container): EntityManage
         $container['settings']['doctrine']['connection'],
         $config
     );
+};
+
+/**
+ * My UserRepository
+ */
+$container[UserRepository::class] = function ($container) {
+    return new UserRepository($container[EntityManager::class]);
 };
 
 /**

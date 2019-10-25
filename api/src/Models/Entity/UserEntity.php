@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 /**
  * @Entity @Table(name="users")
  */
-class User {
+class UserEntity {
 
     /**
      * @var int

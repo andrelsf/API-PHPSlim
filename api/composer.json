@@ -2,9 +2,7 @@
     "require": {
         "slim/slim": "^3.8",
         "slim/psr7": "^0.4.0",
-        "doctrine/orm": "^2.5",
-        "ext-pdo_mysql": "^7.2",
-        "monolog/monolog": "^2.0"
+        "doctrine/orm": "^2.5"
     },
     "autoload": {
         "psr-4": {"App\\": "./src"}

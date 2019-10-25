@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\UserRepository;
+use Doctrine\ORM\EntityManager;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
@@ -12,9 +14,12 @@ require __DIR__."/../bootstrap.php";
  *      curl -X GET localhost:/users
  */
 $app->get('/users', function (Request $request, Response $response) use ($app) {
+    $entityManager = $this->get(EntityManager::class);
+    $userRespository = new UserRepository($entityManager);
+    $usersList = $userRespository->getUsers();
     $message = [
         'status' => 'success',
-        'message' => 'Lista de usuários'
+        'message' => $usersList
     ];
     return $response->withJson($message, 200)
                     ->withHeader('Content-Type', 'application/json');
