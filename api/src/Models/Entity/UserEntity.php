@@ -129,7 +129,11 @@ class UserEntity {
 
     public function getUpdateAt()
     {
-        return $this->updateAt;
+        if ($this->updateAt) {
+            return $this->updateAt;
+        } else {
+            return "";
+        }
     }
 
     public function setUpdateAt()

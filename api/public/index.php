@@ -19,7 +19,7 @@ $app->get('/users', function (Request $request, Response $response) use ($app) {
     $usersList = $userRespository->getUsers();
     $message = [
         'status' => 'success',
-        'message' => $usersList
+        'users' => $usersList
     ];
     return $response->withJson($message, 200)
                     ->withHeader('Content-Type', 'application/json');
@@ -45,10 +45,19 @@ $app->get('/user/{id}', function (Request $request, Response $response) use ($ap
  *  Registra um novo usuário
  */
 $app->post('/user', function (Request $request, Response $response) use ($app) {
-    $message = [
-            'status' => 'success',
-            'message' => 'POST: Ususario cadastrado'
-    ];
+    $post = (object) $request->getParams();
+    $entityManager = $this->get(EntityManager::class);
+    $userRespository = new UserRepository($entityManager);
+    $result = $userRespository->addUser(
+            $post->fullname, $post->email, $post->password, (bool) $post->isactive
+    );
+    if ($result) {
+        $message = [
+                'status' => 'success',
+                'message' => 'User add with successfully'
+        ];
+    }
+    
     return $response->withJson($message, 201)
                     ->withHeader('Content-Type', 'application/json');
 });

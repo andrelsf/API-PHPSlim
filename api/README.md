@@ -33,7 +33,7 @@ $ php -r "unlink('composer-setup.php');"
 | /user/:id| GET    | 200         | Get single user   | `X`    |
 | /user/:id| PUT    | 201/200     | Update single user| `X`    |
 | /user/:id| DELETE | 200         | Delete single user| `X`    |
-| /user    | POST   | 201         | Add new user      | `X`    |
+| /user    | POST   | 201         | Add new user      | `OK`   |
 
 
 ## Referencias
