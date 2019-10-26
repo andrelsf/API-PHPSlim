@@ -27,13 +27,12 @@ $ php -r "unlink('composer-setup.php');"
 
 ### Methods HTTP
 
-| Endpoint | Method | Code Status | Response          | Deploy |  
-|:---------|:------:|:-----------:|-------------------|:------:|
-| /users   | GET    | 200         | List of users     | `OK`   |
-| /user/:id| GET    | 200         | Get single user   | `OK`    |
-| /user/:id| PUT    | 201/200     | Update single user| `X`    |
-| /user/:id| DELETE | 200         | Delete single user| `X`    |
-| /user    | POST   | 201         | Add new user      | `OK`   |
+| Endpoint     | Method   | Code Status     | Response          | Deploy |  
+|:-------------|:--------:|:---------------:|-------------------|:------:|
+| __/users__   | `GET`    | __200__         | List of users     | `OK`   |
+| __/user/:id__| `GET`    | __200__         | Get single user   | `OK`   |
+| __/user/:id__| `DELETE` | __200__         | Delete single user| `OK`   |
+| __/user__    | `POST`   | __201__         | Add new user      | `OK`   |
 
 
 ## Referencias

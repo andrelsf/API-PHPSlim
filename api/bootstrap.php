@@ -33,7 +33,7 @@ $container['errorHandler'] = function ($c) {
         return $c['response']->withStatus($statusCode)
                              ->withHeader('Content-Type', 'application/json')
                              ->withJson(
-                                    ['message' => $exception->getMessage()], 
+                                    ['error' => $exception->getMessage()], 
                                     $statusCode
                                 );
     };

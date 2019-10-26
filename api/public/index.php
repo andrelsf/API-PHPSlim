@@ -26,21 +26,39 @@ $app->get('/users', function (Request $request, Response $response) use ($app) {
 });
 
 /**
- * GET: /user/{id}
- * Busca um usuario pelo ID e detalha suas informações
+ * [GET, PUT, DELETE]: /user/{id}
+ * @method GET: curl -X GET localhost/user/1
+ * @method DELETE: curl -X DELETE localhost/user/1
+ * @method PUT: curl -X PUT -H "Content-Type: application/json" -d '{"fullname":"Andre Ferreira","email":"andre.ferreira@soluti.com.br","password":"admin123","isactive":false}' localhost/user
+ * 
+ * @method MAP add methos in unique endpoint
  */
-$app->get('/user/{id}', function (Request $request, Response $response) use ($app) {
+$app->map(
+        ['GET', 'DELETE'], '/user/{id:[0-9]+}', 
+        function (Request $request, Response $response
+    ) use ($app) {
     $route = $request->getAttribute('route');
     $id = $route->getArgument('id');
     
     $entityManager = $this->get(EntityManager::class);
     $userRespository = new UserRepository($entityManager);
-    $user = $userRespository->getOneUser($id); 
+    
+    $message = [];
+    
+    if ($request->isGet()) {
+        
+        $user = $userRespository->getOneUser($id);
+        $message['message'] = $user['message'];
+        $message['status'] = $user['code'];
 
-    $message = [
-        'message' => $user
-    ];
-    return $response->withJson($message, 200)
+    } elseif ($request->isDelete()) {
+        
+        $user = $userRespository->deleteOneUser($id);
+        $message['message'] = $user['message'];
+        $message['status'] = $user['code'];
+    }
+
+    return $response->withJson($message, (int) $message['status'])
                     ->withHeader('Content-Type', 'application/json');
 });
 
@@ -49,54 +67,31 @@ $app->get('/user/{id}', function (Request $request, Response $response) use ($ap
  *  Registra um novo usuário
  */
 $app->post('/user', function (Request $request, Response $response) use ($app) {
+    $message = [];
     $post = (object) $request->getParams();
+    
     $entityManager = $this->get(EntityManager::class);
     $userRespository = new UserRepository($entityManager);
-    $result = $userRespository->addUser(
-            $post->fullname, $post->email, $post->password, (bool) $post->isactive
-    );
-    if ($result) {
-        $message = [
-                'status' => 'success',
-                'message' => 'User add with successfully'
-        ];
+    
+    $userExists = $userRespository->findByEmail($post->email);
+    
+    if (!$userExists) {
+        $result = $userRespository->addUser(
+                $post->fullname,
+                $post->email,
+                $post->password,
+                (bool) $post->isactive
+        );
+        if ($result) {
+            $message['message'] = 'User add with successfully';
+            $message['code'] = 201;
+        }
+    } else {
+        $message['message'] = 'email already exists';
+        $message['code'] = 404;
     }
     
-    return $response->withJson($message, 201)
-                    ->withHeader('Content-Type', 'application/json');
-});
-
-/**
- * PUT: /user/{id}
- * Atualiza o registro de um usuario pelo id.
- */
-$app->put('/user/{id}', function (Request $request, Response $response) use ($app) {
-    $route = $request->getAttribute('route');
-    $id = $route->getArgument('id');
-
-    $message = [
-            'status' => 'success',
-            'message' => "Usuario {$id} atualizado"
-    ];
-
-    return $response->withJson($message, 200)
-                    ->withHeader('Content-Type', 'application/json');
-});
-
-/**
- * DELETE: /user/{id}
- * Remove um usuario
- */
-$app->delete('/user/{id}', function (Request $request, Response $response) use ($app) {
-    $route = $request->getAttribute('route');
-    $id = $route->getArgument('id');
-
-    $message = [
-            'status' => 'success',
-            'message' => "Usuario {$id} removido."
-    ];
-
-    return $response->withJson($message, 204)
+    return $response->withJson($message, (int) $message['code'])
                     ->withHeader('Content-Type', 'application/json');
 });
 

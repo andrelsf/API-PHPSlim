@@ -17,6 +17,39 @@ class UserRepository
         $this->entityManager = $entityManager;
     }
 
+    public function findByEmail($email)
+    {
+        $userRepository = $this->entityManager
+                               ->getRepository('App\Models\Entity\UserEntity');
+        $user = $userRepository->findBy(['email' => $email]);
+        if ($user){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function deleteOneUser($id)
+    {
+        $result = [];
+        $userRepository = $this->entityManager
+                               ->getRepository('App\Models\Entity\UserEntity');
+
+        $users = $userRepository->findBy(['id' => (int) $id]);
+        $user = $users[0];
+        if ($user) {
+            $this->entityManager->remove($user);
+            $this->entityManager->flush();
+            $result['message'] = "{$id} deleted with successfully";
+            $result['code'] = 200;
+            return $result;
+        } else {
+            $result['message'] = "id not found";
+            $result['code'] = 404;
+            return $result;
+        }
+    }
+
     /**
      * getOneUser function
      *
@@ -30,23 +63,19 @@ class UserRepository
                                ->getRepository('App\Models\Entity\UserEntity');
         $user = $userRepository->find($id);
         if ($user) {
-            array_push(
-                $result,
-                array(
-                    'fullname' => $user->getFullName(),
-                    'email' => $user->getEmail(),
-                    'isactive' => $user->getIsActive(),
-                    'createat' => $user->getCreateAt()
-                                       ->format('d/m/Y H:i:s'),
-                    'updateat' => $user->getUpdateAt()
-                )
+            $result['message'] = array(
+                'fullname' => $user->getFullName(),
+                'email' => $user->getEmail(),
+                'isactive' => $user->getIsActive(),
+                'createat' => $user->getCreateAt()
+                                   ->format('d/m/Y H:i:s'),
+                'updateat' => $user->getUpdateAt()
             );
+            $result['code'] = 200;
             return $result;
         } else {
-            array_push(
-                $result,
-                "ID not found"
-            );
+            $result['message'] = "id not found";
+            $result['code'] = 404;
             return $result;
         }        
     }
@@ -67,6 +96,7 @@ class UserRepository
                 array_push(
                     $results, 
                     array(
+                        'id' => $user->getId(),
                         'fullname' => $user->getFullName(),
                         'email' => $user->getEmail(),
                         'isactive' => $user->getIsActive(),
