@@ -56,6 +56,8 @@ $app->map(
         ['GET', 'DELETE'], '/user/{id:[0-9]+}', 
         function (Request $request, Response $response
     ) use ($app) {
+    $logger = $this->get('logger');
+
     $route = $request->getAttribute('route');
     $id = $route->getArgument('id');
     
@@ -70,11 +72,14 @@ $app->map(
         $message['message'] = $user['message'];
         $message['status'] = $user['code'];
 
+        $logger->info("GET User {$id}");
     } elseif ($request->isDelete()) {
         
         $user = $userRespository->deleteOneUser($id);
         $message['message'] = $user['message'];
         $message['status'] = $user['code'];
+        
+        $logger->info("DELETE User: {$id}");
     }
 
     return $response->withJson($message, (int) $message['status'], JSON_PRETTY_PRINT)
@@ -86,9 +91,12 @@ $app->map(
  *  Registra um novo usuário
  */
 $app->post('/user', function (Request $request, Response $response) use ($app) {
+    $logger = $this->get('logger');
+
     $message = [];
+    
     $post = (object) $request->getParams();
-    var_dump($post);exit;
+
     $entityManager = $this->get(EntityManager::class);
     $userRespository = new UserRepository($entityManager);
     
@@ -104,10 +112,13 @@ $app->post('/user', function (Request $request, Response $response) use ($app) {
         if ($result) {
             $message['message'] = 'User add with successfully';
             $message['code'] = 201;
+            $logger->info("POST: {$message['message']}");
         }
     } else {
         $message['message'] = 'email already exists';
         $message['code'] = 404;
+
+        $logger->info("POST: {$message['message']}");
     }
     
     return $response->withJson($message, (int) $message['code'], JSON_PRETTY_PRINT)
