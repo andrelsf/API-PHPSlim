@@ -18,6 +18,40 @@ class UserRepository
     }
 
     /**
+     * getOneUser function
+     *
+     * @param [integer] $id
+     * @return void
+     */
+    public function getOneUser($id)
+    {
+        $result = [];
+        $userRepository = $this->entityManager
+                               ->getRepository('App\Models\Entity\UserEntity');
+        $user = $userRepository->find($id);
+        if ($user) {
+            array_push(
+                $result,
+                array(
+                    'fullname' => $user->getFullName(),
+                    'email' => $user->getEmail(),
+                    'isactive' => $user->getIsActive(),
+                    'createat' => $user->getCreateAt()
+                                       ->format('d/m/Y H:i:s'),
+                    'updateat' => $user->getUpdateAt()
+                )
+            );
+            return $result;
+        } else {
+            array_push(
+                $result,
+                "ID not found"
+            );
+            return $result;
+        }        
+    }
+
+    /**
      * getUsers function
      *
      * @return $users from repository
@@ -31,7 +65,8 @@ class UserRepository
         foreach ($users as $user){
             if (isset($user)) {
                 array_push(
-                    $results, array(
+                    $results, 
+                    array(
                         'fullname' => $user->getFullName(),
                         'email' => $user->getEmail(),
                         'isactive' => $user->getIsActive(),
@@ -45,6 +80,15 @@ class UserRepository
         return $results;
     }
 
+    /**
+     * addUser function
+     *
+     * @param string $fullname
+     * @param string $email
+     * @param string $password
+     * @param boolean $isActive
+     * @return void
+     */
     public function addUser(
         string $fullname,
         string $email,

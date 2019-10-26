@@ -32,9 +32,13 @@ $app->get('/users', function (Request $request, Response $response) use ($app) {
 $app->get('/user/{id}', function (Request $request, Response $response) use ($app) {
     $route = $request->getAttribute('route');
     $id = $route->getArgument('id');
+    
+    $entityManager = $this->get(EntityManager::class);
+    $userRespository = new UserRepository($entityManager);
+    $user = $userRespository->getOneUser($id); 
+
     $message = [
-            'status' => 'success',
-            'message' => "User {$id}"
+        'message' => $user
     ];
     return $response->withJson($message, 200)
                     ->withHeader('Content-Type', 'application/json');

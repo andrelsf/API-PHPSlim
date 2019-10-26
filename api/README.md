@@ -30,7 +30,7 @@ $ php -r "unlink('composer-setup.php');"
 | Endpoint | Method | Code Status | Response          | Deploy |  
 |:---------|:------:|:-----------:|-------------------|:------:|
 | /users   | GET    | 200         | List of users     | `OK`   |
-| /user/:id| GET    | 200         | Get single user   | `X`    |
+| /user/:id| GET    | 200         | Get single user   | `OK`    |
 | /user/:id| PUT    | 201/200     | Update single user| `X`    |
 | /user/:id| DELETE | 200         | Delete single user| `X`    |
 | /user    | POST   | 201         | Add new user      | `OK`   |
