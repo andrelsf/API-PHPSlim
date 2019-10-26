@@ -2,10 +2,19 @@
 
 use App\Models\UserRepository;
 use Doctrine\ORM\EntityManager;
+use Psr7Middlewares\Middleware\TrailingSlash;
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
 require __DIR__."/../bootstrap.php";
+
+/**
+ * @middleware
+ * Tratamento do barra(/) na request
+ * true: adiciona a barra(/) no final da URL
+ * false: remove a barra(/) do final da URL
+ */
+$app->add(new TrailingSlash(false));
 
 /**
  * GET: /users
@@ -69,7 +78,7 @@ $app->map(
 $app->post('/user', function (Request $request, Response $response) use ($app) {
     $message = [];
     $post = (object) $request->getParams();
-    
+    var_dump($post);exit;
     $entityManager = $this->get(EntityManager::class);
     $userRespository = new UserRepository($entityManager);
     
