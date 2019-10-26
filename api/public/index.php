@@ -17,12 +17,19 @@ require __DIR__."/../bootstrap.php";
 $app->add(new TrailingSlash(false));
 
 /**
+ * Monolog: for all methods 
+ */
+
+
+/**
  * GET: /users
  * Lista de todos os usuários
  * @CURL:
  *      curl -X GET localhost:/users
  */
 $app->get('/users', function (Request $request, Response $response) use ($app) {
+    $logger = $this->get('logger');
+    
     $entityManager = $this->get(EntityManager::class);
     $userRespository = new UserRepository($entityManager);
     $usersList = $userRespository->getUsers();
@@ -30,8 +37,11 @@ $app->get('/users', function (Request $request, Response $response) use ($app) {
         'status' => 'success',
         'users' => $usersList
     ];
-    return $response->withJson($message, 200)
-                    ->withHeader('Content-Type', 'application/json');
+
+    $logger->info("GET Users");
+
+    return $response->withJson($message, 200, JSON_PRETTY_PRINT)
+                    ->withHeader('Content-Type', 'application/json;charset=utf-8');
 });
 
 /**
@@ -67,7 +77,7 @@ $app->map(
         $message['status'] = $user['code'];
     }
 
-    return $response->withJson($message, (int) $message['status'])
+    return $response->withJson($message, (int) $message['status'], JSON_PRETTY_PRINT)
                     ->withHeader('Content-Type', 'application/json');
 });
 
@@ -100,7 +110,7 @@ $app->post('/user', function (Request $request, Response $response) use ($app) {
         $message['code'] = 404;
     }
     
-    return $response->withJson($message, (int) $message['code'])
+    return $response->withJson($message, (int) $message['code'], JSON_PRETTY_PRINT)
                     ->withHeader('Content-Type', 'application/json');
 });
 

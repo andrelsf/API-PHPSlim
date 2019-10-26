@@ -34,9 +34,9 @@ $ php -r "unlink('composer-setup.php');"
 | __/user/:id__| `DELETE` | __200__         | Delete single user| `OK`   |
 | __/user__    | `POST`   | __201__         | Add new user      | `OK`   |
 
-
 ## Referencias
 
+* [PHP Slim Requests](http://www.slimframework.com/docs/v3/objects/request.html)
 * [PHP Slim EntityManager](http://www.slimframework.com/docs/v3/cookbook/database-doctrine.html)
 * [PHP Slim Docs](http://www.slimframework.com/docs/v3/tutorial/first-app.html)
 * [Doctrine DateTime](https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/cookbook/working-with-datetime.html#working-with-datetime-instances)

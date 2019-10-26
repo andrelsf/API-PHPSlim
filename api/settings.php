@@ -25,6 +25,10 @@ return [
                 'password'  => $database['mysql']['password'],
                 'charset'   => $database['mysql']['charset']
             ]
+        ],
+        'logger' => [
+            'name' => 'api-users',
+            'logfile' => APP_ROOT."/logs/api-users.log"
         ]
     ]
 ];

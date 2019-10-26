@@ -1,6 +1,6 @@
 api/vendor/
 api/data/
-api/data/log/
+api/logs/
 api/src/Config/MySQL.php
 mysql/.env
 mysql/.data
