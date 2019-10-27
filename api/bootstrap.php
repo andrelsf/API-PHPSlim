@@ -41,6 +41,23 @@ $container['logger'] = function($container)
 };
 
 /**
+ * Error Handling returns status code 405 Method Not Allowed
+ */
+$container['notAllowedHandler'] = function ($c) 
+{
+    return function ($request, $response, $methods) use ($c) {
+        return $c['response']->withStatus(405)
+                             ->withHeader('Allow', implode(', ', $methods))
+                             ->withHeader('Content-Type', 'application/json')
+                             ->withHeader('Access-control-Allow-Methods', implode(', ', $methods))
+                             ->withJson([
+                                 'status' => 405,
+                                 'message' => "Method not allowed; Method must be one of: ".implode(', ', $methods)
+                             ], 405);
+    };
+};
+
+/**
  * Handler de exceções
  * Retorna as exceções e codigos de status via JSON
  */
